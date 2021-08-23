@@ -15,3 +15,4 @@
 На шлюзе настроена маршрутизация.
 Лабораторный стенд - LL1.jpg
 
+[logo]: https://github.com/udalovsa/otus-ccna/blob/main/lab01/LL1.JPG

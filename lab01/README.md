@@ -14,5 +14,4 @@
 Для распространения VLANов использую VTP.
 На шлюзе настроена маршрутизация.
 Лабораторный стенд - LL1.jpg
-![alt-текст][logo]
-[logo]: https://github.com/udalovsa/otus-ccna/blob/main/lab01/LL1.JPG "12345"
+![alt-текст](https://github.com/udalovsa/otus-ccna/blob/main/lab01/LL1.JPG "12345")

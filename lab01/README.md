@@ -4,8 +4,65 @@
 ###### Базовая настройка коммутатора
 
 Подключаюсь к коммутатору. Активирую режим привилегий.
-''' S2>enable '''
 
+``` S2>enable ```
+
+Запускаю режим конфигурации.
+
+``` S2#conf t ```
+
+Задаю има коммутатора S1.
+
+``` hostname S1 ```
+
+Для коммутатора S2:
+
+``` hostname S2 ```
+
+Отключаю обработку DNS:
+
+``` no ip domain-lookup ```
+
+Устанавливаю пароль на режим привилегий :
+
+``` enable password class ```
+
+Устанавливаю пароль на консольный вход на устройство:
+
+``` 
+S2(config)#line console 0
+S2(config-line)#password cisco
+S2(config-line)#login
+S2(config-line)#exit
+```
+Устанавливаю пароль на вход через терминал:
+
+```
+S2(config)#line vty 0 1500
+S2(config-line)#password cisco
+S2(config-line)#login
+S2(config-line)#exit
+```
+Шифрую пароли, чтобы они были в нейвном виде при выводе конфигурации:
+```
+S2(config)#service password-encryption
+```
+Вывожу предупреждение при подключении к коммутатору:
+```
+S2(config)#banner motd c
+Enter TEXT message.  End with the character 'c'.
+TEST messege
+c
+S2(config)#
+```
+Устанавливаю время на коммутаторе:
+
+```
+S2#clock set 22:22:22 11 september 2025
+```
+```
+S2(config)#clock timezone UTC + 3
+```
 
 
 ##### Задание:

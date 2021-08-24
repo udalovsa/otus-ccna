@@ -266,6 +266,6 @@ interface GigabitEthernet0/2.8
 
 ##### проверяю с рабочих станций маршрутизацию.
 
-![alt-текст](https://github.com/udalovsa/otus-ccna/blob/main/lab01/PCA.JPG "PCA")
-![alt-текст](https://github.com/udalovsa/otus-ccna/blob/main/lab01/PCB.JPG "PCB")
+![alt-текст](https://github.com/udalovsa/otus-ccna/blob/main/lab01/PCA.jpg "PCA")
+![alt-текст](https://github.com/udalovsa/otus-ccna/blob/main/lab01/PCB.jpg "PCB")
 

@@ -108,6 +108,7 @@ copy running-config startup-config
 ```
 ##### Создание вланов и настройка маршрутизации:
 ![alt-текст](https://github.com/udalovsa/otus-ccna/blob/main/lab01/T1.JPG "ТЗ")
+
 Для распространения вланов на коммутаторы я использовал протокол VTP.
 Коммутаторй S2 является vtp сервером.
 ```

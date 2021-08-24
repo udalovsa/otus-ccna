@@ -1,6 +1,10 @@
 ## ЛЛ №1
 #### Работа с VLAN. Межвлановая мршрутизация.
 
+###### Схема сети
+![alt-текст](https://github.com/udalovsa/otus-ccna/blob/main/lab01/LL1.JPG "12345")
+
+
 ###### Базовая настройка коммутатора
 
 Подключаюсь к коммутатору. Активирую режим привилегий.
@@ -56,12 +60,20 @@ c
 S2(config)#
 ```
 Устанавливаю время на коммутаторе:
-
+Вручную:
 ```
 S2#clock set 22:22:22 11 september 2025
 ```
+Обновление по NTP:
 ```
 S2(config)#clock timezone UTC + 3
+S2(config)#ntp server 85.21.78.91
+```
+Скопировать конфиг в стартовый:
+``` 
+S2#copy running-config sta
+S2#copy running-config startup-config
+Destination filename [startup-config]?
 ```
 
 
@@ -77,4 +89,4 @@ S2(config)#clock timezone UTC + 3
 Для распространения VLANов использую VTP.
 На шлюзе настроена маршрутизация.
 Лабораторный стенд - LL1.jpg
-![alt-текст](https://github.com/udalovsa/otus-ccna/blob/main/lab01/LL1.JPG "12345")
+

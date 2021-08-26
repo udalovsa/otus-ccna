@@ -224,3 +224,91 @@ Gi0/3               Root FWD 4         128.4    Shr
 ```
 root port не изменился, т.к. стоимость маршрута через рут порт - 4, а через альтернативный стала 5 (была  8). 
 тогда верну стоимость обратно и изменю стоимость порта 0/3
+```
+S3(config)#interface Gig 0/3
+S3(config-if)#spanning-tree cost 20
+S3(config-if)#do sho spa
+
+VLAN0001
+  Spanning tree enabled protocol rstp
+  Root ID    Priority    32769
+             Address     5000.0001.0000
+             Cost        8
+             Port        2 (GigabitEthernet0/1)
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32769  (priority 32768 sys-id-ext 1)
+             Address     5000.0003.0000
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  300 sec
+
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Gi0/1               Root FWD 4         128.2    Shr
+Gi0/3               Altn BLK 20        128.4    Shr
+
+```
+после увеличения стоимости STP порта 0/3 произошла смена root порта. (4->8)
+верну значение стоимости
+```
+S3(config-if)#no spanning-tree cost
+```
+
+включаю все порты на некорвевых коммутаторах
+```
+S2(config)#inter range Gig 0/0 - 3
+S2(config-if-range)#no shu
+S2(config-if-range)#no shutdown
+
+```
+```
+S2(config-if-range)#do show spann
+
+VLAN0001
+  Spanning tree enabled protocol rstp
+  Root ID    Priority    32769
+             Address     5000.0001.0000
+             Cost        4
+             Port        2 (GigabitEthernet0/1)
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32769  (priority 32768 sys-id-ext 1)
+             Address     5000.0002.0000
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  300 sec
+
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Gi0/0               Desg FWD 4         128.1    Shr
+Gi0/1               Root FWD 4         128.2    Shr
+Gi0/2               Desg FWD 4         128.3    Shr
+Gi0/3               Desg FWD 4         128.4    Shr
+
+
+S3(config-if-range)#do show spann
+
+VLAN0001
+  Spanning tree enabled protocol rstp
+  Root ID    Priority    32769
+             Address     5000.0001.0000
+             Cost        4
+             Port        4 (GigabitEthernet0/3)
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32769  (priority 32768 sys-id-ext 1)
+             Address     5000.0003.0000
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  300 sec
+
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Gi0/0               Altn BLK 4         128.1    Shr
+Gi0/1               Altn BLK 4         128.2    Shr
+Gi0/2               Desg FWD 4         128.3    Shr
+Gi0/3               Root FWD 4         128.4    Shr
+```
+Результат абсолютно противоположенный относительно методички.
+
+После выбора корневого коммутатора протокол стп использует стоимость до рута при выборе порта.
+если стоимость одинакова, то сравнивает приоритет порта.
+если приоритет одинаковый, то сравнивает номер порта.

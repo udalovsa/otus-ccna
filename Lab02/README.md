@@ -195,4 +195,32 @@ Gi0/1               Altn BLK 4         128.2    Shr
 Gi0/3               Root FWD 4         128.4    Shr
 ```
 
+В насьроенной конфигурации корневой коммутатор - S1. Этот коммутаторй имеет самый меньший МАС, приоритеты у коммутаторов одинаковые, поэтому параметр адреса играл решающую роль в выборе рута. У коммутатора все порты назначенные, т.к. он явщяется корневым. Заблокирован порт на коммутаторе S3 (альтернативный) в сторону S2, т.к. вес маршрута до руда больше, чем и второго порта.
 
+Меняю стоимость маршрута на портуй коммутатора S3 для изменения root port
+```
+S3(config)#inte Gig 0/1
+S3(config-if)#spanning-tree cost 1
+S3(config-if)#do show spann
+
+VLAN0001
+  Spanning tree enabled protocol rstp
+  Root ID    Priority    32769
+             Address     5000.0001.0000
+             Cost        4
+             Port        4 (GigabitEthernet0/3)
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32769  (priority 32768 sys-id-ext 1)
+             Address     5000.0003.0000
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  300 sec
+
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Gi0/1               Altn BLK 1         128.2    Shr
+Gi0/3               Root FWD 4         128.4    Shr
+
+```
+root port не изменился, т.к. стоимость маршрута через рут порт - 4, а через альтернативный стала 5 (была  8). 
+тогда верну стоимость обратно и изменю стоимость порта 0/3

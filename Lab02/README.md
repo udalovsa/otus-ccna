@@ -315,7 +315,33 @@ Gi0/2               Desg FWD 4         128.3    Shr
 Gi0/3               Root FWD 4         128.4    Shr
 ```
 Результат абсолютно противоположенный относительно методички.
+Увеличение приоритета порта никак не поменяло алгоритм выбора рут порта:
+S3(config-if)#do show spa
 
+VLAN0001
+  Spanning tree enabled protocol rstp
+  Root ID    Priority    32769
+             Address     5000.0001.0000
+             Cost        4
+             Port        4 (GigabitEthernet0/3)
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32769  (priority 32768 sys-id-ext 1)
+             Address     5000.0003.0000
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  300 sec
+
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Gi0/0               Altn BLK 4         128.1    Shr
+Gi0/1               Altn BLK 4         128.2    Shr
+Gi0/2               Desg FWD 4         160.3    Shr
+Gi0/3               Root FWD 4         128.4    Shr
+
+
+Так же для проверки результата я смоделировал подключение 2я соединениями м/у коммутаторами в программе Packet tracert.
+В программе рут порт выбирается с наименьшейй нумерацией при одинаковых стоимостях и и приоритете. 
+![alt-текст](https://github.com/udalovsa/otus-ccna/blob/main/Lab02/Capture4.JPG "12345")
 #### Контрольные вопросы
 ![alt-текст](https://github.com/udalovsa/otus-ccna/blob/main/Lab02/Capture3.JPG "12345")
 

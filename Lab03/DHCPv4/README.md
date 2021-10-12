@@ -66,3 +66,39 @@ R2#
 ```
 R2#clock set 4:25:00 12 oct 2021
 ```
+
+Конфигурирую интерфейс на R1:
+```
+interface GigabitEthernet0/0.100
+ description Clients
+ encapsulation dot1Q 100
+!
+interface GigabitEthernet0/0.200
+ description Management
+ encapsulation dot1Q 200
+!
+interface GigabitEthernet0/0.1000
+ description Native
+ encapsulation dot1Q 1000
+```
+
+Конфигурация адресов на интерфейсах R1
+```
+R1(config)#interface Gi 0/1
+R1(config-if)#ip address 10.0.0.1 255.255.255.252
+```
+конфигурация DHCP сервера в ВЛАНе 100
+```
+R1#sh runn | begin dhcp
+ip dhcp excluded-address 192.168.1.0 192.168.1.100
+ip dhcp excluded-address 192.168.1.158 192.168.1.255
+!
+ip dhcp pool Clients
+ network 192.168.1.0 255.255.255.0
+ default-router 192.168.1.1
+ dns-server 192.168.1.1
+ domain-name home.local
+```
+
+
+```

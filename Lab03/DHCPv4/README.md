@@ -67,7 +67,7 @@ R2#
 R2#clock set 4:25:00 12 oct 2021
 ```
 
-Конфигурирую интерфейс на R1:
+Конфигурирую интерфейсы на R1:
 ```
 interface GigabitEthernet0/0.100
  description Clients
@@ -87,6 +87,20 @@ interface GigabitEthernet0/0.1000
 R1(config)#interface Gi 0/1
 R1(config-if)#ip address 10.0.0.1 255.255.255.252
 ```
+Сеть А - 192.168.1.0/26
+```
+R1(config)#inter Gi0/0.100
+R1(config-subif)#no ip add
+R1(config-subif)#no ip address
+R1(config-subif)#ip add 192.168.1.1 255.255.255.192
+
+```
+Сеть B - 192.168.1.64/27
+```
+R1(config)#interface Gi0/0.200
+R1(config-subif)#ip add 192.168.1.65 255.255.255.224
+```
+
 конфигурация DHCP сервера в ВЛАНе 100
 ```
 R1#sh runn | begin dhcp
@@ -100,5 +114,23 @@ ip dhcp pool Clients
  domain-name home.local
 ```
 
+Проверка конфига DHCP
+```
+R1#sh runn | begin dhcp
+ip dhcp excluded-address 192.168.1.0 192.168.1.100
+ip dhcp excluded-address 192.168.1.158 192.168.1.255
+!
+ip dhcp pool Clients
+ network 192.168.1.0 255.255.255.0
+ default-router 192.168.1.1
+ dns-server 192.168.1.1
+ domain-name home.local
+
+
+R1#sh ip dhcp binding
+Bindings from all pools not associated with VRF:
+IP address          Client-ID/              Lease expiration        Type
+                    Hardware address/
+                    User name
 
 ```
